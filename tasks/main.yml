@@ -28,7 +28,7 @@
     cleanup: yes
     volumes:
       - "{{data_volume}}:/etc/openvpn"
-    entrypoint: "ovpn_genconfig -u udp://{{url}} -m {{mtu}} -n {{dns}} -N -d -2 -C AES-256-GCM"
+    command: "ovpn_genconfig -u udp://{{url}} -m {{mtu}} -n {{dns}} -N -d -2 -C AES-256-GCM"
 
 - name: Ensure openvpn config is generated (adding routes)
   docker_container:
@@ -38,7 +38,7 @@
     cleanup: yes
     volumes:
       - "{{data_volume}}:/etc/openvpn"
-    entrypoint: "ovpn_genconfig -p '{{item}}'"
+    command: "ovpn_genconfig -p '{{item}}'"
   with_items: "{{routes}}"
 
 - name: Remove mentions of comp-lzo from openvpn config
